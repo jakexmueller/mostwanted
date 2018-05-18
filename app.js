@@ -6,6 +6,8 @@ Build all of your functions for displaying and gathering information below (GUI)
 //debugger;
 function app(people){
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  
+  
   switch(searchType){
     case 'yes':
     searchByName(people);
@@ -19,6 +21,20 @@ function app(people){
     app(people); // restart app
     break;
   }
+
+}
+
+function searchByName(people){
+  var enteredFirstName = promptFor("What is the person's first name?", chars);
+  var enteredLastName = promptFor("What is the person's last name?", chars);
+
+  let newArray = people.filter(function (el) {
+    if(el.firstName === enteredFirstName) {
+      return true;
+  // TODO: find the person using the name they entered
+	}
+  });
+  return newArray;
 }
 
 function searchByTraits(people) {
@@ -49,19 +65,32 @@ function searchByTraits(people) {
       searchByTraits(people);
       break;
   }  
+	if(filteredPeople.length > 1){
+		alert(filteredPeople.length + " " + "found. Narrow the options by choosing another trait");
+		searchByTraits(filteredPeople);
+	}
+	else if(filteredPeople.length === 0){
+		alert("No matches found, Try again!");
+		searchByTraits(filteredPeople);
+	}
+	else {
+		//alert("Rigo is a stud");
+	
+		
+	let foundPerson = filteredPeople[0];
 
-  let foundPerson = filteredPeople[0];
-
-  mainMenu(foundPerson, people);
+	
+	
+	mainMenu(foundPerson, people);
+	}
 
 }
-
 
 function searchByHeight(people) {
   let userInputHeight = prompt("How tall is the person(in inches)?");
 
   let newArray = people.filter(function (el) {
-    if(el.height == userInputHeight) {
+    if(el.height === userInputHeight) {
       return true;
     }
   });
@@ -74,7 +103,7 @@ function searchByWeight(people) {
   let userInputWeight = prompt("How much does the person weigh (in pounds)?");
 
   let newArray = people.filter(function (el) {
-    if(el.weight == userInputWeight) {
+    if(el.weight === userInputWeight) {
       return true;
     }
   });
@@ -86,7 +115,7 @@ function searchByEyeColor(people) {
   let userInputEyeColor = prompt("What color are the persons' eyes?");
 
   let newArray = people.filter(function (el) {
-    if(el.eyeColor == userInputEyeColor) {
+    if(el.eyeColor === userInputEyeColor) {
       return true;
     }
   });
@@ -98,7 +127,7 @@ function searchByGender(people) {
   let userInputGender = prompt("What is the persons' gender (if they choose to identify)?");
 
   let newArray = people.filter(function (el) {
-    if(el.gender == userInputGender) {
+    if(el.gender === userInputGender) {
       return true;
     }
   });
@@ -110,7 +139,7 @@ function searchByAge(people) {
   let userInputAge = prompt("What is the persons' date of birth(m/dd/yyyy)?");
 
   let newArray = people.filter(function (el) {
-    if(el.dob == userInputAge) {
+    if(el.dob === userInputAge) {
       return true;
     }
   });
@@ -122,7 +151,7 @@ function searchByOccupation(people) {
   let userInputOccupation = prompt("What is the persons' occupation?");
 
   let newArray = people.filter(function (el) {
-    if(el.occupation == userInputOccupation) {
+    if(el.occupation === userInputOccupation) {
       return true;
     }
   });
@@ -147,7 +176,7 @@ function mainMenu(person, people){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-
+	console.log(person)
   var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
@@ -173,13 +202,7 @@ function mainMenu(person, people){
   }
 }
 
-function searchByName(people){
-  var firstName = promptFor("What is the person's first name?", chars);
-  var lastName = promptFor("What is the person's last name?", chars);
 
-  // TODO: find the person using the name they entered
-
-}
 
 // alerts a list of people
 function displayPeople(people){
@@ -197,7 +220,7 @@ function displayPerson(person){
   personInfo += "Date Of Birth: " + person.dob + "\n";
   personInfo += "Height: " + person.height + "\n";
   personInfo += "weight: " + person.weight + "\n";
-  personInfo += "Eye Color: " + person.eyecolor + "\n";
+  personInfo += "Eye Color: " + person.eyeColor + "\n";
   personInfo += "occupation: " + person.occupation + "\n";
 
   
