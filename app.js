@@ -10,7 +10,10 @@ function app(people){
   
   switch(searchType){
     case 'yes':
-    searchByName(people);
+    let filteredPerson = searchByName(people);
+		console.log(filteredPerson);
+		displayPeople (filteredPerson);
+		displayPerson (filteredPerson[0]);
 	// TODO: search by name
     break;
     case 'no':
@@ -25,16 +28,20 @@ function app(people){
 }
 
 function searchByName(people){
-  var enteredFirstName = promptFor("What is the person's first name?", chars);
-  var enteredLastName = promptFor("What is the person's last name?", chars);
+  var enteredFirstName = promptFor("What is the person's first name?", chars).toLowerCase();
+  var enteredLastName = promptFor("What is the person's last name?", chars).toLowerCase();
 
   let newArray = people.filter(function (el) {
-    if(el.firstName === enteredFirstName) {
+    if(el.firstName.toLowerCase() === enteredFirstName && el.lastName.toLowerCase() === enteredLastName) {
       return true;
   // TODO: find the person using the name they entered
 	}
   });
+  console.log(newArray);
   return newArray;
+  
+  
+  mainMenu(newArray, people);
 }
 
 function searchByTraits(people) {
