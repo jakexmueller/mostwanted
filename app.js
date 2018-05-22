@@ -12,8 +12,10 @@ function app(people){
     case 'yes':
     let filteredPerson = searchByName(people);
 		console.log(filteredPerson);
-		displayPeople (filteredPerson);
-		displayPerson (filteredPerson[0]);
+		//displayPeople (filteredPerson);
+		mainMenu (filteredPerson[0], people);
+		//displayPerson (filteredPerson[0]);
+		
 	// TODO: search by name
     break;
     case 'no':
@@ -40,8 +42,6 @@ function searchByName(people){
   console.log(newArray);
   return newArray;
   
-  
-  mainMenu(newArray, people);
 }
 
 function searchByTraits(people) {
@@ -193,10 +193,11 @@ function mainMenu(person, people){
     // TODO: get person's info
     break;
     case "family":
-		personalInfo = displayFamily(person);
+		personalInfo = displayFamily(person, people);
 	// TODO: get person's family
     break;
     case "descendants":
+		personalInfo = displayDescendants (person, people);
     // TODO: get person's descendants
     break;
     case "restart":
@@ -212,6 +213,7 @@ function mainMenu(person, people){
 
 
 // alerts a list of people
+//people = [{ firstName: "Mike", lastName: "Heinisch"}];
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
@@ -235,12 +237,82 @@ function displayPerson(person){
   alert(personInfo);
 }
 
-function displayFamily(person){
-	var familyOfPerson = "spouse: " + person.currentSpouse + "\n";
+function displayDescendants (person, people){
+	let descendants = getChildren (person, people);
+		for (let i = 0; i < descendants.length; i++){
+			descendants = "Descendants: " + descendants[i].firstName + " " + descendants[i].lastName + "\n";
+		}
+	alert (descendants);
+}
+/*function getDescendants(person, people){
+	let children = getChildren(person, people);
+	//for (let i = 0; i < children.length; i++){
+		let grandChildren = getChildren(people, children)
+		
+		
+		//let grandChildren = getChildren(people, children);
+		let arrayOfDescendants = []
+		arrayOfDescendants.push(children, grandChildren);
+		console.log(children);
+		console.log(grandChildren);
+		return arrayOfDescendants;
+	//}
+}*/
+
+
+function displayFamily(person, people){
 	
 	
+	var familyOfPerson = "Spouse: " + person.currentSpouse + "\n";
+	familyOfPerson += person.parents + "\n";
+	let children = getChildren(person, people);
+	//familyOfPerson += children[0] + "\n";
+		for (let i=0; i < children.length; i++){ 
+			familyOfPerson += "Children: " + children[i].firstName + " " + children[i].lastName + "\n";
+		}
+	let siblings = getSiblings (person, people);
+		for (let i=0; i< siblings.length; i++) {
+			familyOfPerson += "Siblings: " + siblings[i].firstName + " " + siblings[i].lastName + "\n";
+		}
+	let infoArray =[]
+	for (i=0; i < familyOfPerson.length; i++){
+		infoArray.push(familyOfPerson);
+	}
 	alert(familyOfPerson);
 }
+
+
+
+function getChildren(person, people) {
+	console.log(person);
+	let childrenArray = people.filter(function (el) {
+		if(el.parents[0] === person.id || el.parents[1] === person.id) {
+			console.log(el.id);
+			return true;
+		}
+  });
+  return childrenArray;
+
+}
+
+	
+function getSiblings(person, people){
+	let newArray = people.filter (function (el) {
+		for (let i = 0; i < people.length; i++){
+		if(el.parents[i] == person.parents){
+				console.log(el.id);
+				return true;
+			}
+		}	
+	});
+	return newArray;
+		
+	
+		
+}
+	
+
+
 // function that prompts and validates user input
 function promptFor(question, valid){
   do{
