@@ -278,7 +278,6 @@ function getChildren(person, people) {
 
 }
 
-	
 function getSiblings(person, people){
 	let newArray = people.filter (function (el) {
 		for (let i = 0; i < people.length; i++){
@@ -291,8 +290,6 @@ function getSiblings(person, people){
 	return newArray;	
 }
 	
-
-
 // function that prompts and validates user input
 function promptFor(question, valid){
   do{
