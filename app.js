@@ -97,7 +97,7 @@ function searchByHeight(people) {
   let userInputHeight = prompt("How tall is the person(in inches)?");
 
   let newArray = people.filter(function (el) {
-    if(el.height === userInputHeight) {
+    if(el.height == userInputHeight) {
       return true;
     }
   });
@@ -110,7 +110,7 @@ function searchByWeight(people) {
   let userInputWeight = prompt("How much does the person weigh (in pounds)?");
 
   let newArray = people.filter(function (el) {
-    if(el.weight === userInputWeight) {
+    if(el.weight == userInputWeight) {
       return true;
     }
   });
@@ -174,7 +174,7 @@ function searchByOccupation(people) {
 
 
 // Menu function to call once you find who you are looking for
-function mainMenu(person, people){
+function mainMenu(person, people,){
 	let personalInfo;
 
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
@@ -238,32 +238,32 @@ function displayPerson(person){
 }
 
 function displayDescendants (person, people){
-	let descendants = getChildren (person, people);
-		for (let i = 0; i < descendants.length; i++){
-			descendants = "Descendants: " + descendants[i].firstName + " " + descendants[i].lastName + "\n";
-		}
-	alert (descendants);
+	let children = getDescendants(person, people);
+	alert(people.map(function(person){
+		return person.firstName + " " + person.lastName;
+	}).join("\n"));
 }
-/*function getDescendants(person, people){
+	
+	
+function getDescendants(person, people){
 	let children = getChildren(person, people);
-	//for (let i = 0; i < children.length; i++){
-		let grandChildren = getChildren(people, children)
-		
-		
-		//let grandChildren = getChildren(people, children);
-		let arrayOfDescendants = []
-		arrayOfDescendants.push(children, grandChildren);
-		console.log(children);
-		console.log(grandChildren);
-		return arrayOfDescendants;
-	//}
-}*/
+	for(let i = 0; i < children.length; i++){
+		let grandchildren = getDescendants (children[i], people)
+		console.log(children[i])
+	}
+}
+
 
 
 function displayFamily(person, people){
 	
+	if(person.currentSpouse != null){
+		var familyOfPerson = "Spouse: " + person.currentSpouse + "\n";
+	}
+	else {
+		var familyOfPerson = "No spouse" + "\n";
+	}
 	
-	var familyOfPerson = "Spouse: " + person.currentSpouse + "\n";
 	familyOfPerson += person.parents + "\n";
 	let children = getChildren(person, people);
 	//familyOfPerson += children[0] + "\n";
