@@ -7,16 +7,11 @@ Build all of your functions for displaying and gathering information below (GUI)
 function app(people){
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   
-  
   switch(searchType){
     case 'yes':
     let filteredPerson = searchByName(people);
 		console.log(filteredPerson);
-		//displayPeople (filteredPerson);
 		mainMenu (filteredPerson[0], people);
-		//displayPerson (filteredPerson[0]);
-		
-	// TODO: search by name
     break;
     case 'no':
     searchByTraits(people);
@@ -26,7 +21,6 @@ function app(people){
     app(people); // restart app
     break;
   }
-
 }
 
 function searchByName(people){
@@ -146,7 +140,6 @@ function searchByOccupation(people) {
   return newArray;
 }
 
-
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people,){
 	let personalInfo;
@@ -181,10 +174,7 @@ function mainMenu(person, people,){
   }
 }
 
-
-
 // alerts a list of people
-//people = [{ firstName: "Mike", lastName: "Heinisch"}];
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName;
@@ -192,8 +182,6 @@ function displayPeople(people){
 }
 
 function displayPerson(person){
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
   var personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
@@ -216,29 +204,30 @@ function displayDescendants (person, people){
 	
 function getDescendants(person, people){
 	let descendants = getChildren(person, people);
-	// let children = getChildren(person, people);
-	// descendants = descendants.concat(children);
+
 	for(let i = 0; i < descendants.length; i++){
 		let grandchildren = getDescendants (descendants[i], people);
-		descendants = descendants.concat(grandchildren);
-		// console.log(children[i].firstName);		
+		descendants = descendants.concat(grandchildren);		
 	}
 	return descendants;
 }
 
-
-
 function displayFamily(person, people){
-	
 	if(person.currentSpouse != null){
-		var familyOfPerson = "Spouse: " + person.currentSpouse + "\n";
+		let spouse = getSpouse(person, people);
+		for (let i = 0; i < spouse.length; i++){
+			var familyOfPerson = "Spouse: " + spouse[i].firstName + " " + spouse[i].lastName + "\n";	
+		}
 	}
 	else {
 		var familyOfPerson = "No spouse" + "\n";
-	}
+	}	
+	let parents = getParents(person, people);
 	
-	familyOfPerson += person.parents + "\n";
-	let children = getChildren(person, people);
+		for (let i=0; i < parents.length; i++){ 
+			familyOfPerson += "Parent: " + parents[i].firstName + " " + parents[i].lastName + "\n";
+		}
+		let children = getChildren(person, people);
 	
 		for (let i=0; i < children.length; i++){ 
 			familyOfPerson += "Children: " + children[i].firstName + " " + children[i].lastName + "\n";
@@ -254,14 +243,28 @@ function displayFamily(person, people){
 	alert(familyOfPerson);
 }
 
-/*function getSpouse (person, people) {
+function getSpouse(person, people) {
+	console.log(person);
 	let spouse = people.filter(function (el) {
-		 let newArray = people.filter(function (el) {
-    if(el.dob === userInputAge) {
-      return true;
-    }
-	});
-}*/
+		if(person.currentSpouse === el.id) {
+			console.log(person.currentSpouse);
+			return true;
+		}	
+ });
+  return spouse;
+
+}
+
+function getParents (person, people){
+	console.log(person);
+	let parentsArray = people.filter(function (el) {
+		if(person.parents[0] === el.id || person.parents[1] === el.id) {
+			console.log(el.id);
+			return true;
+		}
+  });
+  return parentsArray;
+}
 
 function getChildren(person, people) {
 	console.log(person);
